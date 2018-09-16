@@ -6,25 +6,9 @@
 package model;
 
 
-import java.security.Key;
 import java.security.SecureRandom;
-import java.security.Security; // Incluido
-import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.spec.IvParameterSpec;
-import org.bouncycastle.jcajce.provider.BouncyCastleFipsProvider; // Incluido
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.SecretKeySpec;
-import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
