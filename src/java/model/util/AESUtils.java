@@ -5,7 +5,7 @@
  */
 package model.util;
 
-
+import com.sun.crypto.provider.AESKeyGenerator;
 import java.io.UnsupportedEncodingException;
 import java.security.Key;
 import java.security.SecureRandom;
@@ -30,64 +30,77 @@ import org.apache.commons.codec.binary.Hex;
  * @author Matheus
  */
 public class AESUtils {
-    
+
     private Key aesKey;
     private byte iv[];
     private IvParameterSpec ivSpec;
     private Cipher cipher;
-    
-    
-     public void inicia() throws NoSuchAlgorithmException, NoSuchPaddingException, NoSuchProviderException {
-        // Instancia o cipher
-        cipher = Cipher.getInstance("AES/CTR/NoPadding");
 
-        // Gera uma chave AES
-        System.out.print("Gerando chave \t-> "); 
-        KeyGenerator sKenGen = KeyGenerator.getInstance("AES"); 
-        aesKey = sKenGen.generateKey();
-        System.out.println("Chave AES \t= " + Hex.encodeHexString(aesKey.getEncoded()));
+    public String instanceKey;
+    public String instanceIv;
+            
+    public String generateAES() throws NoSuchAlgorithmException {
         
+        // Gera uma chave AES
+        KeyGenerator sKenGen = KeyGenerator.getInstance("AES");
+        aesKey = sKenGen.generateKey();
         char[] hex = Hex.encodeHex(aesKey.getEncoded());
         //TODO
         String salvarNoBancoParaAESKey = String.valueOf(hex);
-        
+        return salvarNoBancoParaAESKey;
+    }
+    public String generateIv() throws NoSuchAlgorithmException, NoSuchProviderException{
         // Gerando o iv com SecureRandom
-        System.out.print("Gerando IV \t-> "); 
         SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
-        iv = new byte[64];
+        iv = new byte[16];
         random.nextBytes(iv);
         ivSpec = new IvParameterSpec(iv);
-        System.out.println("IV \t= " + Hex.encodeHexString(iv));
-        
+
         char[] ivToChar = Hex.encodeHex(iv);
         //TODO
         String salvarNoBancoParaIvSpec = String.valueOf(ivToChar);
         
+        return salvarNoBancoParaIvSpec;
+    }
+
+    public void inicia() throws NoSuchAlgorithmException, NoSuchPaddingException, NoSuchProviderException {
+        // Instancia o cipher
+        cipher = Cipher.getInstance("AES/CTR/NoPadding");
+        instanceKey = generateAES();
+        instanceIv = generateIv();
     } // fim inicia
-    
+
     public String encrypt(String strToEncrypt) {
         try {
-            inicia();
+            try {
+                inicia();
+            } catch (NoSuchProviderException ex) {
+            }
             cipher.init(Cipher.ENCRYPT_MODE, aesKey, ivSpec);
             final String encryptedString = Hex.encodeHexString(cipher.doFinal(strToEncrypt.getBytes()));
             return encryptedString;
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException | NoSuchProviderException | BadPaddingException e) {
-        
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException e) {
+            System.err.println(e);
         }
         return null;
     }
-    
+
     public String decrypt(String mensagemAlice, String aesKeyBob, String ivBob) throws InvalidKeyException, InvalidAlgorithmParameterException {
         try {
+            try {
+                cipher = Cipher.getInstance("AES/CTR/NoPadding");
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(AESUtils.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NoSuchPaddingException ex) {
+                Logger.getLogger(AESUtils.class.getName()).log(Level.SEVERE, null, ex);
+            }
             byte[] aesToByte = Hex.decodeHex(aesKeyBob.toCharArray());
             SecretKeySpec keyBanco = new SecretKeySpec(aesToByte, "AES");
-            
+
             byte[] ivToByte = Hex.decodeHex(ivBob.toCharArray());
             IvParameterSpec ivSpecBanco = new IvParameterSpec(ivToByte);
-            
             cipher.init(Cipher.DECRYPT_MODE, keyBanco, ivSpecBanco);
-            //cipher.init(Cipher.DECRYPT_MODE, secretKey, ivSpec);
-            byte[] embytes = {};
+            byte[] embytes = { };
             try {
                 embytes = Hex.decodeHex(mensagemAlice.toCharArray());
             } catch (DecoderException ex) {
@@ -98,16 +111,22 @@ public class AESUtils {
 
             return decryptedString;
 
-        } catch (IllegalBlockSizeException | BadPaddingException | DecoderException e ) {
-            System.out.println(e);
+        } catch (IllegalBlockSizeException | BadPaddingException | DecoderException e) {
+            System.out.println("dentro "+e);
         }
         return null;
     }
 
-    public static void main(String args[]) throws UnsupportedEncodingException {
-        
+    public static void main(String args[]) throws UnsupportedEncodingException, InvalidKeyException {
+
         AESUtils aes = new AESUtils();
-        
+
+        try {
+            String b = aes.decrypt("matheus", "ee1c48d1d0e1d62ccd1f74e6f0ff10bb", "843c80cbcdc4882e4a2bbdd6d78f7e5f");
+            System.out.println(b);
+        } catch (InvalidAlgorithmParameterException ex) {
+            Logger.getLogger(AESUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
 }

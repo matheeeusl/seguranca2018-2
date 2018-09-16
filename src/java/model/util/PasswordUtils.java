@@ -20,15 +20,15 @@ import javax.crypto.SecretKey;
 public class PasswordUtils {
     
     /*Usado para gerar o salt  */
-    private String getSalt() throws NoSuchAlgorithmException {
+    public String getSalt() throws NoSuchAlgorithmException {
         SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
-        byte[] salt = new byte[64];
+        byte[] salt = new byte[16];
         sr.nextBytes(salt);
         return Hex.encodeHexString(salt);
     }
     public static String generateDerivedKey(String password, String salt) {
         PBEKeySpec spec = new PBEKeySpec(password.toCharArray(), salt.getBytes(), 10000, 256);
-        SecretKeyFactory pbkdf2 = null;
+        SecretKeyFactory pbkdf2;
         String derivedPass = null;
         try {
             pbkdf2 = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
@@ -41,13 +41,12 @@ public class PasswordUtils {
     }
     public boolean verifyUserPassword(String providedPassword, String securedPassword, String salt) throws NoSuchAlgorithmException
     {
-        boolean returnValue = false;
+        boolean returnValue;
         
         // Generate New secure password with the same salt
         String newSecurePassword = generateDerivedKey(providedPassword, salt);
         
         // Check if two passwords are equal
-        System.out.println(newSecurePassword+"   "+ securedPassword +"     "+ salt);
         returnValue = newSecurePassword.equalsIgnoreCase(securedPassword);
 
         return returnValue;
@@ -55,27 +54,22 @@ public class PasswordUtils {
     
     public static void main(String args[]) throws NoSuchAlgorithmException {
         PasswordUtils PU = new PasswordUtils();
-        String email;
         String senha;
         String salt;
+        String senhaBanco;
         Scanner input = new Scanner(System.in);
-        System.out.println("Digite o email: ");
-        email = input.nextLine();
         System.out.println("Digite a senha: ");
         senha = input.nextLine();
-        salt = PU.getSalt();
-       
-        System.out.println("Email original = " + email);
-        System.out.println("Senha original = " + senha);
-        System.out.println("Sal gerado = " + salt);
         
-        String chaveDerivada = generateDerivedKey(senha, salt);
-        System.out.println("Chave derivada da senha = " + chaveDerivada );
+        System.out.println("Digite a senha do banco: ");
+        senhaBanco = input.nextLine();
         
-        String novoPassword;
-        System.out.println("Digite a senha: ");
-        novoPassword = input.nextLine();
+        System.out.println("Digite o salt: ");
+        salt = input.nextLine();
         
-        System.out.println(PU.verifyUserPassword(novoPassword, chaveDerivada, salt));
+        boolean bol = PU.verifyUserPassword(senha, senhaBanco, salt);
+        
+        System.out.println(bol);
+        
     }
 }

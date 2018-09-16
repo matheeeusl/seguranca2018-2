@@ -5,7 +5,13 @@
  */
 package model;
 
+import model.util.AESUtils;
+import model.util.PasswordUtils;
+
 import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -96,7 +102,11 @@ public class Usuario implements Serializable {
     }
 
     public void setLogin(String login) {
-        this.login = login;
+        AESUtils au = new AESUtils();
+        String loginEncripted = au.encrypt(login);   
+        this.setAesKey(au.instanceKey);
+        this.setIv(au.instanceIv);
+        this.login = loginEncripted;
     }
 
     public String getSenha() {
@@ -104,7 +114,17 @@ public class Usuario implements Serializable {
     }
 
     public void setSenha(String senha) {
-        this.senha = senha;
+        PasswordUtils pu = new PasswordUtils();
+        String salt;
+        try {
+            salt = pu.getSalt();
+            String derivedKey = pu.generateDerivedKey(senha, salt);
+            
+            this.setSalt(salt);
+            this.senha = derivedKey;
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public String getSalt() {

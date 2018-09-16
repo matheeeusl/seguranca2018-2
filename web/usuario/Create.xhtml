@@ -18,15 +18,9 @@
                     <h:outputLabel value="#{bundle.CreateUsuarioLabel_id}" for="id" />
                     <h:inputText id="id" value="#{usuarioController.selected.id}" title="#{bundle.CreateUsuarioTitle_id}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_id}"/>
                     <h:outputLabel value="#{bundle.CreateUsuarioLabel_login}" for="login" />
-                    <h:inputTextarea rows="4" cols="30" id="login" value="#{usuarioController.selected.login}" title="#{bundle.CreateUsuarioTitle_login}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_login}"/>
+                    <h:inputText id="login" value="#{usuarioController.selected.login}" title="#{bundle.CreateUsuarioTitle_login}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_login}"/>
                     <h:outputLabel value="#{bundle.CreateUsuarioLabel_senha}" for="senha" />
-                    <h:inputTextarea rows="4" cols="30" id="senha" value="#{usuarioController.selected.senha}" title="#{bundle.CreateUsuarioTitle_senha}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_senha}"/>
-                    <h:outputLabel value="#{bundle.CreateUsuarioLabel_salt}" for="salt" />
-                    <h:inputTextarea rows="4" cols="30" id="salt" value="#{usuarioController.selected.salt}" title="#{bundle.CreateUsuarioTitle_salt}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_salt}"/>
-                    <h:outputLabel value="#{bundle.CreateUsuarioLabel_iv}" for="iv" />
-                    <h:inputTextarea rows="4" cols="30" id="iv" value="#{usuarioController.selected.iv}" title="#{bundle.CreateUsuarioTitle_iv}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_iv}"/>
-                    <h:outputLabel value="#{bundle.CreateUsuarioLabel_aesKey}" for="aesKey" />
-                    <h:inputTextarea rows="4" cols="30" id="aesKey" value="#{usuarioController.selected.aesKey}" title="#{bundle.CreateUsuarioTitle_aesKey}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_aesKey}"/>
+                    <h:inputText id="senha" value="#{usuarioController.selected.senha}" title="#{bundle.CreateUsuarioTitle_senha}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_senha}"/>
                 </h:panelGrid>
                 <br />
                 <h:commandLink action="#{usuarioController.create}" value="#{bundle.CreateUsuarioSaveLink}" />
