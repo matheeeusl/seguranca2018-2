@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -18,16 +19,18 @@ import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 
 @Named("usuarioController")
+@ManagedBean(name = "usuario_controller")
 @SessionScoped
 public class UsuarioController implements Serializable {
-
+    
+    
     private Usuario current;
     private DataModel items = null;
     @EJB
     private controller.UsuarioFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
-
+    
     public UsuarioController() {
     }
 
@@ -78,6 +81,15 @@ public class UsuarioController implements Serializable {
         return "Create";
     }
 
+    public String loginFunction(String login, String senha){
+        System.out.println(" current login ? "+ login + " senha "+senha);
+        Usuario user = ejbFacade.autenticar(login, senha);
+        if(user != null){
+            return "success";
+        }
+        return "index";
+    }
+    
     public String create() {
         try {
             getFacade().create(current);

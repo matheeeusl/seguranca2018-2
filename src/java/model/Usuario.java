@@ -72,14 +72,18 @@ public class Usuario implements Serializable {
     @Size(min = 1, max = 65535)
     @Column(nullable = false, length = 65535)
     private String aesKey;
-
+    
     public Usuario() {
     }
 
     public Usuario(Integer id) {
         this.id = id;
     }
-
+    public Usuario(String login, String senha) {
+        this.login = login;
+        this.senha = senha;
+    }
+    
     public Usuario(Integer id, String login, String senha, String salt, String iv, String aesKey) {
         this.id = id;
         this.login = login;
@@ -88,7 +92,6 @@ public class Usuario implements Serializable {
         this.iv = iv;
         this.aesKey = aesKey;
     }
-
     public Integer getId() {
         return id;
     }

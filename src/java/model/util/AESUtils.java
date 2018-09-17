@@ -5,7 +5,6 @@
  */
 package model.util;
 
-import com.sun.crypto.provider.AESKeyGenerator;
 import java.io.UnsupportedEncodingException;
 import java.security.Key;
 import java.security.SecureRandom;
@@ -57,18 +56,15 @@ public class AESUtils {
         ivSpec = new IvParameterSpec(iv);
 
         char[] ivToChar = Hex.encodeHex(iv);
-        //TODO
         String salvarNoBancoParaIvSpec = String.valueOf(ivToChar);
-        
         return salvarNoBancoParaIvSpec;
     }
 
     public void inicia() throws NoSuchAlgorithmException, NoSuchPaddingException, NoSuchProviderException {
-        // Instancia o cipher
         cipher = Cipher.getInstance("AES/CTR/NoPadding");
         instanceKey = generateAES();
         instanceIv = generateIv();
-    } // fim inicia
+    }
 
     public String encrypt(String strToEncrypt) {
         try {
@@ -87,32 +83,22 @@ public class AESUtils {
 
     public String decrypt(String mensagemAlice, String aesKeyBob, String ivBob) throws InvalidKeyException, InvalidAlgorithmParameterException {
         try {
-            try {
-                cipher = Cipher.getInstance("AES/CTR/NoPadding");
-            } catch (NoSuchAlgorithmException ex) {
-                Logger.getLogger(AESUtils.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (NoSuchPaddingException ex) {
-                Logger.getLogger(AESUtils.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            byte[] aesToByte = Hex.decodeHex(aesKeyBob.toCharArray());
+            inicia();
+            
+            byte[] aesToByte;
+            aesToByte = Hex.decodeHex(aesKeyBob.toCharArray());
             SecretKeySpec keyBanco = new SecretKeySpec(aesToByte, "AES");
 
             byte[] ivToByte = Hex.decodeHex(ivBob.toCharArray());
             IvParameterSpec ivSpecBanco = new IvParameterSpec(ivToByte);
             cipher.init(Cipher.DECRYPT_MODE, keyBanco, ivSpecBanco);
-            byte[] embytes = { };
-            try {
-                embytes = Hex.decodeHex(mensagemAlice.toCharArray());
-            } catch (DecoderException ex) {
-                Logger.getLogger(AESUtils.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            byte[] embytes = Hex.decodeHex(mensagemAlice.toCharArray());
 
             String decryptedString = new String(cipher.doFinal(embytes));
-
             return decryptedString;
 
-        } catch (IllegalBlockSizeException | BadPaddingException | DecoderException e) {
-            System.out.println("dentro "+e);
+        } catch (IllegalBlockSizeException | BadPaddingException | DecoderException | NoSuchAlgorithmException | NoSuchPaddingException | NoSuchProviderException e) {
+            Logger.getLogger(AESUtils.class.getName()).log(Level.SEVERE, null, e);
         }
         return null;
     }
@@ -122,7 +108,7 @@ public class AESUtils {
         AESUtils aes = new AESUtils();
 
         try {
-            String b = aes.decrypt("matheus", "ee1c48d1d0e1d62ccd1f74e6f0ff10bb", "843c80cbcdc4882e4a2bbdd6d78f7e5f");
+            String b = aes.decrypt("8f445cee6fd214", "ee1c48d1d0e1d62ccd1f74e6f0ff10bb", "843c80cbcdc4882e4a2bbdd6d78f7e5f");
             System.out.println(b);
         } catch (InvalidAlgorithmParameterException ex) {
             Logger.getLogger(AESUtils.class.getName()).log(Level.SEVERE, null, ex);

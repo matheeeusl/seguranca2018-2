@@ -80,3 +80,8 @@ tr.jsfcrud_even_row {
     left: 50%;
     top: 50%;
 }
+.error_message {
+    color : red;
+    font-family: Tahoma, Arial;
+    font-size: 0.7em;
+}

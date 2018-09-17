@@ -3,13 +3,19 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Segurança</title>
         <h:outputStylesheet name="css/jsfcrud.css"/>
     </h:head>
     <h:body>
-        Hello from Facelets
+        <h:form>
+            User Name <h:inputText value="#{usuario_bean.login}"></h:inputText><br></br>
+              Password <h:inputSecret value="#{usuario_bean.senha}"></h:inputSecret><br></br>
+              <h:commandButton action="#{usuario_controller.loginFunction(usuario_bean.login, usuario_bean.senha)}" value="Submit"></h:commandButton>
+         </h:form>
         <br />
-        <h:link outcome="/usuario/List" value="Show All Usuario Items"/>
+        <h:link outcome="/usuario/List" value="Show All Usuario Items"/><br></br>
+        <h:link outcome="/usuario/Create" value="#{bundle.ListUsuarioCreateLink}" />
+        
     </h:body>
 
 </html>
