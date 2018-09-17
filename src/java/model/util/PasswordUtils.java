@@ -8,6 +8,7 @@ package model.util;
 
 import java.security.SecureRandom;
 import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Scanner;
 import org.apache.commons.codec.binary.Hex;
 import javax.crypto.SecretKeyFactory;
@@ -34,7 +35,7 @@ public class PasswordUtils {
             pbkdf2 = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
             SecretKey sk = pbkdf2.generateSecret(spec);
             derivedPass = Hex.encodeHexString(sk.getEncoded());
-        } catch (Exception e) {
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             e.printStackTrace();
         }
         return derivedPass;

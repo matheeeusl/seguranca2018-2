@@ -46,7 +46,6 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         Usuario user = null;
 
         for (int i = 0; i < usuarios.size(); i++) {
-                System.out.println("LIST "+usuarios.get(i).getSenha());
             try {
                 Usuario userObject = usuarios.get(i);
                 String decryptedLogin = au.decrypt(userObject.getLogin(), userObject.getAesKey(), userObject.getIv());

@@ -4,10 +4,11 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html">
     <h:head>
         <title>Sucesso</title>
+         <h:outputStylesheet name="css/jsfcrud.css"/>
     </h:head>
     <h:body>
-        Usuário Logado com Sucesso!
-        <h:outputLabel value="#{usuario_bean.login}" />
+        #{usuario_bean.login} Logado com Sucesso!
+        <br></br>
         <h:link outcome="/index" value="#{bundle.ListUsuarioIndexLink}"/>
     </h:body>
 </html>

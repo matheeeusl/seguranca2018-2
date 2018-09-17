@@ -14,19 +14,15 @@
                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
             </h:panelGroup>
             <h:form>
+                A frase abaixo é desencriptada antes de ser mostrada, o valor salvo no banco está sendo mostrado na lista de usuários.
+                <br></br>
+                 Mesmo mostrando o id criptografado no input ao alterar ele criptografa novamente.
+                <br></br><br></br><br></br>Você está alterando as informações de: #{usuarioController.selected.getLogin(true)}
                 <h:panelGrid columns="2">
-                    <h:outputLabel value="#{bundle.EditUsuarioLabel_id}" for="id" />
-                    <h:inputText id="id" value="#{usuarioController.selected.id}" title="#{bundle.EditUsuarioTitle_id}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_id}"/>
-                    <h:outputLabel value="#{bundle.EditUsuarioLabel_login}" for="login" />
-                    <h:inputTextarea rows="4" cols="30" id="login" value="#{usuarioController.selected.login}" title="#{bundle.EditUsuarioTitle_login}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_login}"/>
+                    <h:outputLabel value="#{bundle.EditUsuarioLabel_login}" for="login" /> 
+                    <h:inputText id="login" value="#{usuarioController.selected.login}" title="#{bundle.EditUsuarioTitle_login}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_login}"/>
                     <h:outputLabel value="#{bundle.EditUsuarioLabel_senha}" for="senha" />
-                    <h:inputTextarea rows="4" cols="30" id="senha" value="#{usuarioController.selected.senha}" title="#{bundle.EditUsuarioTitle_senha}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_senha}"/>
-                    <h:outputLabel value="#{bundle.EditUsuarioLabel_salt}" for="salt" />
-                    <h:inputTextarea rows="4" cols="30" id="salt" value="#{usuarioController.selected.salt}" title="#{bundle.EditUsuarioTitle_salt}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_salt}"/>
-                    <h:outputLabel value="#{bundle.EditUsuarioLabel_iv}" for="iv" />
-                    <h:inputTextarea rows="4" cols="30" id="iv" value="#{usuarioController.selected.iv}" title="#{bundle.EditUsuarioTitle_iv}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_iv}"/>
-                    <h:outputLabel value="#{bundle.EditUsuarioLabel_aesKey}" for="aesKey" />
-                    <h:inputTextarea rows="4" cols="30" id="aesKey" value="#{usuarioController.selected.aesKey}" title="#{bundle.EditUsuarioTitle_aesKey}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_aesKey}"/>
+                    <h:inputSecret id="senha" value="#{usuarioController.selected.senha}" title="#{bundle.EditUsuarioTitle_senha}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_senha}"/>
                 </h:panelGrid>
                 <h:commandLink action="#{usuarioController.update}" value="#{bundle.EditUsuarioSaveLink}"/>
                 <br />

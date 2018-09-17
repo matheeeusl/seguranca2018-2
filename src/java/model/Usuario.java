@@ -9,6 +9,8 @@ import model.util.AESUtils;
 import model.util.PasswordUtils;
 
 import java.io.Serializable;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -101,6 +103,19 @@ public class Usuario implements Serializable {
     }
 
     public String getLogin() {
+        return login;
+    }
+    
+    public String getLogin(boolean showDecrypted){
+         AESUtils au = new AESUtils();
+         if(showDecrypted){
+            try {
+               String decryptedLogin = au.decrypt(login, getAesKey(), getIv());
+               return decryptedLogin;
+           } catch (InvalidKeyException | InvalidAlgorithmParameterException ex) {
+               Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
+           }
+         }
         return login;
     }
 

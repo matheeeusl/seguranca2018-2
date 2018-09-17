@@ -15,6 +15,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.security.Security;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.crypto.BadPaddingException;
@@ -23,6 +24,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 /**
  *
@@ -106,7 +108,7 @@ public class AESUtils {
     public static void main(String args[]) throws UnsupportedEncodingException, InvalidKeyException {
 
         AESUtils aes = new AESUtils();
-
+        //int addProvider1 = Security.addProvider(new BouncyCastleProvider());
         try {
             String b = aes.decrypt("8f445cee6fd214", "ee1c48d1d0e1d62ccd1f74e6f0ff10bb", "843c80cbcdc4882e4a2bbdd6d78f7e5f");
             System.out.println(b);

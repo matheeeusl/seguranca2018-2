@@ -82,7 +82,6 @@ public class UsuarioController implements Serializable {
     }
 
     public String loginFunction(String login, String senha){
-        System.out.println(" current login ? "+ login + " senha "+senha);
         Usuario user = ejbFacade.autenticar(login, senha);
         if(user != null){
             return "success";

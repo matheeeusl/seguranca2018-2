@@ -8,12 +8,12 @@
     </h:head>
     <h:body>
         <h:form>
-            User Name <h:inputText value="#{usuario_bean.login}"></h:inputText><br></br>
-              Password <h:inputSecret value="#{usuario_bean.senha}"></h:inputSecret><br></br>
-              <h:commandButton action="#{usuario_controller.loginFunction(usuario_bean.login, usuario_bean.senha)}" value="Submit"></h:commandButton>
+            #{bundle.ViewUsuarioLabel_login} <h:inputText value="#{usuario_bean.login}"></h:inputText><br></br>
+            #{bundle.ViewUsuarioLabel_senha} <h:inputSecret value="#{usuario_bean.senha}"></h:inputSecret><br></br>
+            <h:commandButton action="#{usuario_controller.loginFunction(usuario_bean.login, usuario_bean.senha)}" value="#{bundle.BotaoLogar}"></h:commandButton>
          </h:form>
         <br />
-        <h:link outcome="/usuario/List" value="Show All Usuario Items"/><br></br>
+        <h:link outcome="/usuario/List" value="#{bundle.ViewUsuarioShowAllLink}"/><br></br>
         <h:link outcome="/usuario/Create" value="#{bundle.ListUsuarioCreateLink}" />
         
     </h:body>
